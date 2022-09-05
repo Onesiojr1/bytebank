@@ -1,6 +1,10 @@
+import 'package:bytebankv2/components/balance.dart';
 import 'package:bytebankv2/screens/contacts_list.dart';
 import 'package:bytebankv2/screens/transactions_list.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/balance.dart';
 
 class Dashboard extends StatelessWidget {
   @override
@@ -13,10 +17,19 @@ class Dashboard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset('images/bytebank_logo.png'),
-          ),
+          Column(children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: BalanceCard(),
+            ),
+            Consumer<Balance>(builder: (context, balance, child) {
+              return ElevatedButton(
+                  child: const Text('Adicionar'),
+                  onPressed: () {
+                    balance.add(10);
+                  });
+            })
+          ]),
           Container(
             height: 120,
             child: ListView(
@@ -73,7 +86,7 @@ class _FeatureItem extends StatelessWidget {
         child: InkWell(
           onTap: () => onClick(),
           child: Container(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             width: 150,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -86,7 +99,7 @@ class _FeatureItem extends StatelessWidget {
                 ),
                 Text(
                   name,
-                  style: TextStyle(color: Colors.white, fontSize: 16.0),
+                  style: const TextStyle(color: Colors.white, fontSize: 16.0),
                 )
               ],
             ),
